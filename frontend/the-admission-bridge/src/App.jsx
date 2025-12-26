@@ -27,7 +27,7 @@ function App() {
       maxFee: feeRange[1],
     });
 
-    fetch(`http://localhost:5000/api/universities?${params.toString()}`)
+    fetch(`https://admission-task.vercel.app/api/universities?${params.toString()}`)
       .then(res => res.json())
       .then(data => setUniversities(data))
       .catch(console.error);

@@ -21,7 +21,7 @@ export default function ApplyModal({ university, onClose }) {
         setError("");
 
         try {
-            const res = await fetch("http://localhost:5000/api/applications", {
+            const res = await fetch("https://admission-task.vercel.app/api/applications", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

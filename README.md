@@ -10,7 +10,6 @@ It demonstrates real-time filtering with SQL, eligibility validation, side-by-si
 ## 🚀 Live Demo
 
 👉 [Live App URL](https://the-dmission-bridge.netlify.app/)  
-*(Replace with your deployed frontend URL on Vercel/Netlify)*
 
 ---
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Hero from './Components/Hero';
 import UniversityCard from './Components/UniversityCard';
 import CompareModal from './Components/CompareModal';
+import ApplyModal from './Components/ApplyModal';
 
 function App() {
   const [country, setCountry] = useState("");
@@ -11,9 +12,12 @@ function App() {
   const [ielts, setIelts] = useState("");
   const [universities, setUniversities] = useState([]);
   const [compareList, setCompareList] = useState([]);
+  const [showCompare, setShowCompare] = useState(false);
+  const [showApply, setShowApply] = useState(false);
+  const [selectedUni, setSelectedUni] = useState(null);
   const countryOptionRef = useRef([]);
   const degreeOptionRef = useRef([]);
-  const [showCompare, setShowCompare] = useState(false);
+
 
   useEffect(() => {
     const params = new URLSearchParams({
@@ -53,7 +57,8 @@ function App() {
   };
 
   const handleApply = (uni) => {
-    console.log("Apply clicked:", uni);
+    setSelectedUni(uni);
+    setShowApply(true);
   };
 
   const INITIAL_FEE_RANGE = [5000, 50000];
@@ -140,17 +145,22 @@ function App() {
 
       {/* University Cards */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 px-3">
-        {universities.map((uni) => (
-          <UniversityCard
-            key={uni.id}
-            university={uni}
-            userGpa={gpa}
-            userIelts={ielts}
-            isSelected={compareList.some(u => u.id === uni.id)}
-            onToggleCompare={toggleCompare}
-            onApply={handleApply}
-          />
-        ))}
+        {
+
+          universities.length == 0 ? <p className="text-center col-span-3 text-red-400 py-10">
+            No university found, adjust you search.
+          </p> :
+            universities.map((uni) => (
+              <UniversityCard
+                key={uni.id}
+                university={uni}
+                userGpa={gpa}
+                userIelts={ielts}
+                isSelected={compareList.some(u => u.id === uni.id)}
+                onToggleCompare={toggleCompare}
+                onApply={handleApply}
+              />
+            ))}
       </div>
 
       {compareList.length >= 2 && (
@@ -166,8 +176,19 @@ function App() {
         <CompareModal
           list={compareList}
           onClose={() => setShowCompare(false)}
-        />
+        ></CompareModal>
       )}
+
+      {showApply && selectedUni && (
+        <ApplyModal
+          university={selectedUni}
+          onClose={() => setShowApply(false)}
+        ></ApplyModal>
+      )}
+
+
+      <p className='pt-15 pb-5 text-center text-blue-400'>Made with ❤️ By <a className='hover:underline' target='_blank' href="https://github.com/Rakibislam22">Md Rakib Ali</a> &copy; {new Date().getFullYear()}</p>
+
     </div>
   );
 }

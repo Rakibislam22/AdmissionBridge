@@ -43,6 +43,7 @@ export default function Hero({ country, setCountry, degree, setDegree, countryOp
                             onChange={(e) => setCountry(e.target.value)}
                         >
                             <option value="">Select Country</option>
+                            <option value="">All</option>
                             {
                                 countryOption.map(op => <option value={op}>{op}</option>)
                             }
@@ -55,6 +56,7 @@ export default function Hero({ country, setCountry, degree, setDegree, countryOp
                             onChange={(e) => setDegree(e.target.value)}
                         >
                             <option value="">Degree Level</option>
+                            <option value="">All</option>
                             {
                                 degreeOption.map(op => <option value={op}>{op}</option>)
                             }

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export default function Hero({ country, setCountry, degree, setDegree }) {
+export default function Hero({ country, setCountry, degree, setDegree, countryOption, degreeOption }) {
     return (
         <section className="relative overflow-hidden">
             {/* Background */}
@@ -43,8 +43,10 @@ export default function Hero({ country, setCountry, degree, setDegree }) {
                             onChange={(e) => setCountry(e.target.value)}
                         >
                             <option value="">Select Country</option>
-                            <option value="USA">USA</option>
-                            <option value="UK">UK</option>
+                            {
+                                countryOption.map(op => <option value={op}>{op}</option>)
+                            }
+
                         </select>
 
                         <select
@@ -53,8 +55,10 @@ export default function Hero({ country, setCountry, degree, setDegree }) {
                             onChange={(e) => setDegree(e.target.value)}
                         >
                             <option value="">Degree Level</option>
-                            <option value="Bachelors">Bachelors</option>
-                            <option value="Masters">Masters</option>
+                            {
+                                degreeOption.map(op => <option value={op}>{op}</option>)
+                            }
+                            
                         </select>
                     </div>
                 </motion.div>

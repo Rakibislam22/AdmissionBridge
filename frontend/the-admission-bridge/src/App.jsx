@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Hero from './Components/Hero';
 import UniversityCard from './Components/UniversityCard';
+import CompareModal from './Components/CompareModal';
 
 function App() {
   const [country, setCountry] = useState("");
@@ -10,6 +11,9 @@ function App() {
   const [ielts, setIelts] = useState("");
   const [universities, setUniversities] = useState([]);
   const [compareList, setCompareList] = useState([]);
+  const countryOptionRef = useRef([]);
+  const degreeOptionRef = useRef([]);
+  const [showCompare, setShowCompare] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams({
@@ -24,6 +28,21 @@ function App() {
       .then(data => setUniversities(data))
       .catch(console.error);
   }, [country, degree, feeRange]);
+
+  useEffect(() => {
+    if (
+      universities.length > 0 &&
+      countryOptionRef.current.length === 0
+    ) {
+      countryOptionRef.current = [
+        ...new Set(universities.map(uni => uni.country)),
+      ];
+
+      degreeOptionRef.current = [
+        ...new Set(universities.map(uni => uni.degree_level)),
+      ];
+    }
+  }, [universities]);
 
   const toggleCompare = (uni) => {
     setCompareList(prev =>
@@ -60,6 +79,8 @@ function App() {
         setCountry={setCountry}
         degree={degree}
         setDegree={setDegree}
+        countryOption={countryOptionRef.current}
+        degreeOption={degreeOptionRef.current}
       />
 
       <div className="max-w-6xl mx-auto mt-10 flex max-md:flex-wrap gap-4 px-3">
@@ -105,7 +126,7 @@ function App() {
         {/* IELTS */}
         <input type="number" placeholder="Your IELTS" value={ielts} onChange={(e) => setIelts(e.target.value)} className="p-3 border border-blue-200 rounded-xl w-full focus:outline-none focus:ring-2 ring-blue-300" />
 
-        {/* ❌ Clear Button */}
+        {/* Clear Button */}
         {isFilterDirty && (
           <button
             onClick={clearAllFilters}
@@ -131,6 +152,22 @@ function App() {
           />
         ))}
       </div>
+
+      {compareList.length >= 2 && (
+        <button
+          className="fixed bottom-6 right-6 bg-black text-white px-4 py-2 rounded-xl shadow-lg"
+          onClick={() => setShowCompare(true)}
+        >
+          Compare Now
+        </button>
+      )}
+
+      {showCompare && (
+        <CompareModal
+          list={compareList}
+          onClose={() => setShowCompare(false)}
+        />
+      )}
     </div>
   );
 }

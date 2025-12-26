@@ -18,7 +18,7 @@ export default function UniversityCard({
         <motion.div
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 200, damping: 18 }}
-            className="relative bg-white rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col justify-between"
+            className="relative bg-white rounded-2xl shadow-lg border border-blue-100 p-4 flex flex-col justify-between"
         >
             {/* Eligibility Badge */}
             {notEligible && (
